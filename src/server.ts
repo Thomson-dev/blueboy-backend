@@ -16,7 +16,13 @@ dotenv.config();
 const app = express();
 const MONGODB_URI = process.env.MONGODB_URI ?? "";
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    "https://blueboy-m8l6.vercel.app",
+    "http://localhost:5173",
+  ],
+  credentials: true,
+}));
 app.use(express.json());
 
 app.use("/api/hero", heroRoutes);
