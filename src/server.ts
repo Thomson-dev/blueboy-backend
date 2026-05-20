@@ -9,6 +9,7 @@ import videosRoutes from "./routes/videos";
 import tourDatesRoutes from "./routes/tourDates";
 import authRoutes from "./routes/auth";
 import uploadsRoutes from "./routes/uploads";
+import linksRoutes from "./routes/links";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use("/api/videos", videosRoutes);
 app.use("/api/tour-dates", tourDatesRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/uploads", uploadsRoutes);
+app.use("/api/links", linksRoutes);
 
 let dbConnected = false;
 
