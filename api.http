@@ -1,0 +1,221 @@
+### ─── Variables ────────────────────────────────────────────────────────────
+@baseUrl = http://localhost:5000/api
+@token   = REPLACE_WITH_TOKEN_FROM_LOGIN
+
+### ════════════════════════════════════════════════════════════════════════════
+### AUTH
+### ════════════════════════════════════════════════════════════════════════════
+
+### Register admin (secret must match JWT_SECRET in .env)
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "yourpassword",
+  "secret": "REPLACE_WITH_JWT_SECRET"
+}
+
+###
+
+### Login → copy the token into @token above
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "yourpassword"
+}
+
+### ════════════════════════════════════════════════════════════════════════════
+### HERO
+### ════════════════════════════════════════════════════════════════════════════
+
+### Get hero content
+GET {{baseUrl}}/hero
+
+###
+
+### Create hero content (protected)
+POST {{baseUrl}}/hero
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "label": "New Album",
+  "albumTitle": "Blue Boy",
+  "ctaText": "Listen Now",
+  "ctaUrl": "https://open.spotify.com/album/example"
+}
+
+###
+
+### Update hero content (protected)
+PUT {{baseUrl}}/hero
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "label": "Latest Drop",
+  "albumTitle": "Blue Boy",
+  "ctaText": "Stream Now",
+  "ctaUrl": "https://open.spotify.com/album/example"
+}
+
+### ════════════════════════════════════════════════════════════════════════════
+### RELEASES
+### ════════════════════════════════════════════════════════════════════════════
+
+### Get all releases
+GET {{baseUrl}}/releases
+
+###
+
+### Get featured releases only
+GET {{baseUrl}}/releases?featured=true
+
+###
+
+### Get shelf (non-featured) releases
+GET {{baseUrl}}/releases?featured=false
+
+###
+
+### Get single release by ID
+GET {{baseUrl}}/releases/REPLACE_WITH_RELEASE_ID
+
+###
+
+### Create release (protected)
+POST {{baseUrl}}/releases
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Blue Boy",
+  "eyebrow": "Out Now",
+  "featuredArtist": null,
+  "coverUrl": "https://res.cloudinary.com/example/image.jpg",
+  "listenUrl": "https://open.spotify.com/album/example",
+  "watchUrl": null,
+  "featured": true,
+  "displayOrder": 1,
+  "type": "album"
+}
+
+###
+
+### Update release (protected)
+PUT {{baseUrl}}/releases/REPLACE_WITH_RELEASE_ID
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "featured": false,
+  "displayOrder": 2
+}
+
+###
+
+### Delete release (protected)
+DELETE {{baseUrl}}/releases/REPLACE_WITH_RELEASE_ID
+Authorization: Bearer {{token}}
+
+### ════════════════════════════════════════════════════════════════════════════
+### VIDEOS
+### ════════════════════════════════════════════════════════════════════════════
+
+### Get all videos
+GET {{baseUrl}}/videos
+
+###
+
+### Get single video by ID
+GET {{baseUrl}}/videos/REPLACE_WITH_VIDEO_ID
+
+###
+
+### Create video (protected)
+POST {{baseUrl}}/videos
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Blue Boy - Official Music Video",
+  "thumbnailUrl": "https://img.youtube.com/vi/VIDEOID/maxresdefault.jpg",
+  "youtubeUrl": "https://www.youtube.com/watch?v=VIDEOID",
+  "displayOrder": 1
+}
+
+###
+
+### Update video (protected)
+PUT {{baseUrl}}/videos/REPLACE_WITH_VIDEO_ID
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "displayOrder": 2
+}
+
+###
+
+### Delete video (protected)
+DELETE {{baseUrl}}/videos/REPLACE_WITH_VIDEO_ID
+Authorization: Bearer {{token}}
+
+### ════════════════════════════════════════════════════════════════════════════
+### TOUR DATES
+### ════════════════════════════════════════════════════════════════════════════
+
+### Get upcoming tour dates
+GET {{baseUrl}}/tour-dates
+
+###
+
+### Create tour date (protected)
+POST {{baseUrl}}/tour-dates
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "date": "2026-07-15T20:00:00.000Z",
+  "city": "Lagos",
+  "venue": "Eko Convention Centre",
+  "ticketUrl": "https://tickets.example.com/blueboy-lagos",
+  "soldOut": false
+}
+
+###
+
+### Update tour date (protected)
+PUT {{baseUrl}}/tour-dates/REPLACE_WITH_TOURDATE_ID
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "soldOut": true
+}
+
+###
+
+### Delete tour date (protected)
+DELETE {{baseUrl}}/tour-dates/REPLACE_WITH_TOURDATE_ID
+Authorization: Bearer {{token}}
+
+### ════════════════════════════════════════════════════════════════════════════
+### UPLOADS  (multipart/form-data — use REST Client's file syntax)
+### ════════════════════════════════════════════════════════════════════════════
+
+### Upload image to Cloudinary (protected)
+### Replace the file path with an actual image on your machine
+POST {{baseUrl}}/uploads
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=----Boundary
+
+------Boundary
+Content-Disposition: form-data; name="image"; filename="cover.jpg"
+Content-Type: image/jpeg
+
+< C:/Users/Thomson/Pictures/cover.jpg
+------Boundary--
