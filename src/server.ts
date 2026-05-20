@@ -25,14 +25,6 @@ app.use(cors({
 }));
 app.use(express.json());
 
-app.use("/api/hero", heroRoutes);
-app.use("/api/releases", releasesRoutes);
-app.use("/api/videos", videosRoutes);
-app.use("/api/tour-dates", tourDatesRoutes);
-app.use("/api/auth", authRoutes);
-app.use("/api/uploads", uploadsRoutes);
-app.use("/api/links", linksRoutes);
-
 let dbConnected = false;
 
 async function connectDB() {
@@ -44,7 +36,7 @@ async function connectDB() {
   dbConnected = true;
 }
 
-// Ensure DB is connected before every request (cached after first call)
+// Must be before routes so DB is ready for every handler
 app.use(async (_req, _res, next) => {
   try {
     await connectDB();
@@ -53,6 +45,14 @@ app.use(async (_req, _res, next) => {
     next(err);
   }
 });
+
+app.use("/api/hero", heroRoutes);
+app.use("/api/releases", releasesRoutes);
+app.use("/api/videos", videosRoutes);
+app.use("/api/tour-dates", tourDatesRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/uploads", uploadsRoutes);
+app.use("/api/links", linksRoutes);
 
 // Local dev: start the HTTP server directly
 if (process.env.NODE_ENV !== "production") {
