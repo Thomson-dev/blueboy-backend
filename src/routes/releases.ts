@@ -10,9 +10,8 @@ const router = Router();
 function normalize(r: Record<string, unknown>) {
   return {
     ...r,
-    coverUrl:        r.coverUrl        || r.imageUrl   || "",
-    listenUrl:       r.listenUrl       || r.musicLink  || "",
-    featuredArtist:  r.featuredArtist  || r.feat       || null,
+    coverUrl:  r.coverUrl  || r.imageUrl  || "",
+    listenUrl: r.listenUrl || r.musicLink || "",
   };
 }
 
